@@ -23,7 +23,7 @@ const Table = (props) => {
                 <td>{character.birthDate}</td>
                 <td>{character.height}</td>
                 <td>{character.mass}</td>
-                <td>{character.homeWorld}</td>
+                <td>{character.homeworld}</td>
                 <td>{character.species}</td>
               </tr>
             );

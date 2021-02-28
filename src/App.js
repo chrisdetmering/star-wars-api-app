@@ -21,31 +21,31 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // This should evetually return all results w/ pagination
-  componentDidMount() {
-    axios
-      .get("https://swapi.dev/api/people/1/")
-      .then((response) => {
-        console.log(response.data);
+  //This should evetually return all results w/ pagination
+  // componentDidMount() {
+  //   axios
+  //     .get("https://swapi.dev/api/people/1")
+  //     .then((response) => {
+  //       console.log(response.data);
 
-        const characterReturn = {
-          id: Math.random().toString(36).substr(2, 9),
-          name: response.data.name,
-          birthDate: response.data.birth_year,
-          height: response.data.height,
-          mass: response.data.mass,
-          homeWorld: response.data.homeworld,
-          species: response.data.species,
-        };
+  //       const characterReturn = {
+  //         id: Math.random().toString(36).substr(2, 9),
+  //         name: response.data.name,
+  //         birthDate: response.data.birth_year,
+  //         height: response.data.height,
+  //         mass: response.data.mass,
+  //         homeWorld: response.data.homeworld,
+  //         species: response.data.species,
+  //       };
 
-        this.setState({
-          tableData: [...this.state.tableData, characterReturn],
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  //       this.setState({
+  //         tableData: [...this.state.tableData, characterReturn],
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   handleChange(e) {
     const { name, value } = e.target;
@@ -57,7 +57,33 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("submit button pressed");
+
+    const NEWSEARCH = this.state.name;
+    let searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
+    console.log(searchUrl);
+
+    axios
+      .get(searchUrl)
+      .then((response) => {
+        console.log("Submit Data", response.data);
+
+        // const characterReturn = {
+        //   id: Math.random().toString(36).substr(2, 9),
+        //   name: response.data.name,
+        //   birthDate: response.data.birth_year,
+        //   height: response.data.height,
+        //   mass: response.data.mass,
+        //   homeWorld: response.data.homeworld,
+        //   species: response.data.species,
+        // };
+
+        this.setState({
+          tableData: [response.data],
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
@@ -86,42 +112,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// *** DELETE ME WHEN DONE ***
-
-// Axios Example
-
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       imageURL: "",
-//     };
-//   }
-
-//   componentDidMount() {
-//     axios
-//       .get("https://dog.ceo/api/breeds/image/random")
-//       .then((response) => {
-//         console.log(response.data);
-//         this.setState({ imageURL: response.data.message });
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   }
-
-//   render() {
-//     const { imageURL } = this.state;
-//     return (
-//       <div className="App">
-//         <div className="Card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-//           <div className="card-body">
-//             <h1>"Hello!"</h1>
-//             <img src={imageURL} />
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
