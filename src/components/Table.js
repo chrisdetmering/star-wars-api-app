@@ -2,6 +2,7 @@ import React from "react";
 
 const Table = (props) => {
   const tableData = props.tableData;
+  // console.log("TableData from Table", tableData);
   return (
     <div className="container">
       <table className="table table-hover">
@@ -20,7 +21,7 @@ const Table = (props) => {
             return (
               <tr key={character.id}>
                 <td>{character.name}</td>
-                <td>{character.birthDate}</td>
+                <td>{character.birth_year}</td>
                 <td>{character.height}</td>
                 <td>{character.mass}</td>
                 <td>{character.homeworld}</td>

@@ -9,43 +9,17 @@ class App extends React.Component {
     super(props);
     this.state = {
       tableData: [],
-      name: "",
-      birthDate: "",
-      height: "",
-      mass: "",
-      homeworld: "",
-      species: "",
+      // name: "",
+      // birthDate: "",
+      // height: "",
+      // mass: "",
+      // homeworld: "",
+      // species: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  //This should evetually return all results w/ pagination
-  // componentDidMount() {
-  //   axios
-  //     .get("https://swapi.dev/api/people/1")
-  //     .then((response) => {
-  //       console.log(response.data);
-
-  //       const characterReturn = {
-  //         id: Math.random().toString(36).substr(2, 9),
-  //         name: response.data.name,
-  //         birthDate: response.data.birth_year,
-  //         height: response.data.height,
-  //         mass: response.data.mass,
-  //         homeWorld: response.data.homeworld,
-  //         species: response.data.species,
-  //       };
-
-  //       this.setState({
-  //         tableData: [...this.state.tableData, characterReturn],
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   handleChange(e) {
     const { name, value } = e.target;
@@ -60,30 +34,32 @@ class App extends React.Component {
 
     const NEWSEARCH = this.state.name;
     let searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
-    console.log(searchUrl);
 
     axios
       .get(searchUrl)
       .then((response) => {
-        console.log("Submit Data", response.data);
-
-        // const characterReturn = {
-        //   id: Math.random().toString(36).substr(2, 9),
-        //   name: response.data.name,
-        //   birthDate: response.data.birth_year,
-        //   height: response.data.height,
-        //   mass: response.data.mass,
-        //   homeWorld: response.data.homeworld,
-        //   species: response.data.species,
-        // };
-
-        this.setState({
-          tableData: [response.data],
-        });
+        this.parseData(response);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
+  }
+
+  parseData(response) {
+    let newData = response.data.results;
+
+    newData.map((databit) => {
+      if (databit.species.length === 0) {
+        databit.species = "Human";
+      }
+      axios.get(databit.homeworld.name);
+      console.log(databit.homeworld);
+
+      return databit;
+    });
+
+    console.log("edited", newData);
+    // this.setState({
+    //   tableData: newData,
+    // });
   }
 
   render() {
@@ -98,12 +74,12 @@ class App extends React.Component {
           />
           <Table
             tableData={this.state.tableData}
-            name={this.state.name}
-            birthData={this.state.birthDate}
-            height={this.state.height}
-            mass={this.state.mass}
-            homeworld={this.state.homeworld}
-            species={this.state.species}
+            // name={this.state.name}
+            // birthData={this.state.birthDate}
+            // height={this.state.height}
+            // mass={this.state.mass}
+            // homeworld={this.state.homeworld}
+            // species={this.state.species}
           />
         </div>
       </div>
