@@ -18,7 +18,7 @@ const Table = (props) => {
         <tbody>
           {tableData.map((character) => {
             return (
-              <tr key={character.id}>
+              <tr key={character.name}>
                 <td>{character.name}</td>
                 <td>{character.birth_year}</td>
                 <td>{character.height}</td>

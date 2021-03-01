@@ -9,17 +9,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       tableData: [],
-      // name: "",
-      // birthDate: "",
-      // height: "",
-      // mass: "",
-      // homeworld: "",
-      // species: "",
+      name: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.parseData = this.parseData.bind(this);
+    this.parseResponse = this.parseResponse.bind(this);
   }
 
   handleChange(e) {
@@ -38,18 +33,23 @@ class App extends React.Component {
     axios
       .get(searchUrl)
       .then((response) => {
-        this.parseData(response);
+        this.parseResponse(response);
       })
       .catch((error) => {});
   }
 
-  parseData(response) {
-    let responseData = response.data.results;
+  parseResponse(response) {
+    const responseData = response.data.results;
 
     const finalData = responseData.map((databit) => {
       if (databit.species.length === 0) {
         databit.species = "Human";
+      } else {
+        axios.get(databit.species).then((getspecies) => {
+          databit.species = getspecies.data.name;
+        });
       }
+
       axios.get(databit.homeworld).then((getworld) => {
         databit.homeworld = getworld.data.name;
       });
@@ -59,9 +59,15 @@ class App extends React.Component {
 
     console.log("Final Data: ", finalData);
 
-    // this.setState({
-    //   tableData: finalData,
-    // });
+    this.setState(
+      {
+        tableData: finalData,
+        name: "",
+      },
+      () => {
+        console.log("Callback data? ", this.state.tableData);
+      }
+    );
   }
 
   render() {
