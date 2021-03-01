@@ -2,7 +2,6 @@ import React from "react";
 
 const Table = (props) => {
   const tableData = props.tableData;
-  // console.log("TableData from Table", tableData);
   return (
     <div className="container">
       <table className="table table-hover">

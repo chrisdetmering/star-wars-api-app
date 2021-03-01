@@ -19,11 +19,11 @@ class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.parseData = this.parseData.bind(this);
   }
 
   handleChange(e) {
-    const { name, value } = e.target;
-    console.log("name", name, "value", value);
+    const { value } = e.target;
     this.setState({
       name: value,
     });
@@ -44,21 +44,23 @@ class App extends React.Component {
   }
 
   parseData(response) {
-    let newData = response.data.results;
+    let responseData = response.data.results;
 
-    newData.map((databit) => {
+    const finalData = responseData.map((databit) => {
       if (databit.species.length === 0) {
         databit.species = "Human";
       }
-      axios.get(databit.homeworld.name);
-      console.log(databit.homeworld);
+      axios.get(databit.homeworld).then((getworld) => {
+        databit.homeworld = getworld.data.name;
+      });
 
       return databit;
     });
 
-    console.log("edited", newData);
+    console.log("Final Data: ", finalData);
+
     // this.setState({
-    //   tableData: newData,
+    //   tableData: finalData,
     // });
   }
 
