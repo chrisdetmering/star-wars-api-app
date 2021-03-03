@@ -32,8 +32,15 @@ class App extends React.Component {
 
     axios
       .get(searchUrl)
-      .then((response) => {
-        this.parseResponse(response);
+      .then(async (response) => {
+        const characters = await this.parseResponse(response);
+        // set state should go here
+        debugger;
+        console.log(characters);
+        this.setState({
+          tableData: characters,
+          name: "",
+        });
       })
       .catch((error) => {});
   }
@@ -41,33 +48,24 @@ class App extends React.Component {
   parseResponse(response) {
     const responseData = response.data.results;
 
-    const finalData = responseData.map((databit) => {
-      if (databit.species.length === 0) {
-        databit.species = "Human";
-      } else {
-        axios.get(databit.species).then((getspecies) => {
-          databit.species = getspecies.data.name;
+    const finalData = Promise.all(
+      responseData.map(async (databit) => {
+        if (databit.species.length === 0) {
+          databit.species = "Human";
+        } else {
+          await axios.get(databit.species).then((getspecies) => {
+            databit.species = getspecies.data.name;
+          });
+        }
+
+        await axios.get(databit.homeworld).then((getworld) => {
+          databit.homeworld = getworld.data.name;
         });
-      }
 
-      axios.get(databit.homeworld).then((getworld) => {
-        databit.homeworld = getworld.data.name;
-      });
-
-      return databit;
-    });
-
-    console.log("Final Data: ", finalData);
-
-    this.setState(
-      {
-        tableData: finalData,
-        name: "",
-      },
-      () => {
-        console.log("Callback data? ", this.state.tableData);
-      }
+        return databit;
+      })
     );
+    return finalData;
   }
 
   render() {
