@@ -17,6 +17,21 @@ class App extends React.Component {
     this.parseResponse = this.parseResponse.bind(this);
   }
 
+  componentDidMount() {
+    const searchUrl = "https://swapi.dev/api/people/";
+
+    axios
+      .get(searchUrl)
+      .then(async (response) => {
+        const characters = await this.parseResponse(response);
+        this.setState({
+          tableData: characters,
+          name: "",
+        });
+      })
+      .catch((error) => {});
+  }
+
   handleChange(e) {
     const { value } = e.target;
     this.setState({
@@ -28,15 +43,12 @@ class App extends React.Component {
     e.preventDefault();
 
     const NEWSEARCH = this.state.name;
-    let searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
+    const searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
 
     axios
       .get(searchUrl)
       .then(async (response) => {
         const characters = await this.parseResponse(response);
-        // set state should go here
-        debugger;
-        console.log(characters);
         this.setState({
           tableData: characters,
           name: "",
