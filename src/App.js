@@ -3,6 +3,7 @@ import React from "react";
 import Title from "./components/Title";
 import Search from "./components/Search";
 import Table from "./components/Table";
+import Pagination from "./components/Pagination";
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,8 @@ class App extends React.Component {
     this.state = {
       tableData: [],
       name: "",
+      currentPage: 1,
+      totalPages: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,6 +30,7 @@ class App extends React.Component {
         this.setState({
           tableData: characters,
           name: "",
+          totalPages: response.data.count,
         });
       })
       .catch((error) => {});
@@ -52,6 +56,7 @@ class App extends React.Component {
         this.setState({
           tableData: characters,
           name: "",
+          totalPages: response.data.count,
         });
       })
       .catch((error) => {});
@@ -90,14 +95,10 @@ class App extends React.Component {
             handleSubmit={this.handleSubmit}
             name={this.state.name}
           />
-          <Table
-            tableData={this.state.tableData}
-            // name={this.state.name}
-            // birthData={this.state.birthDate}
-            // height={this.state.height}
-            // mass={this.state.mass}
-            // homeworld={this.state.homeworld}
-            // species={this.state.species}
+          <Table tableData={this.state.tableData} />
+          <Pagination
+            currentPage={this.state.currentPage}
+            totalPages={this.state.totalPages}
           />
         </div>
       </div>
