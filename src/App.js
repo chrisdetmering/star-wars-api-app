@@ -12,28 +12,19 @@ class App extends React.Component {
       tableData: [],
       name: "",
       currentPage: 1,
+      totalCharacters: "",
       totalPages: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.parseResponse = this.parseResponse.bind(this);
+    this.apiFetch = this.apiFetch.bind(this);
   }
 
   componentDidMount() {
     const searchUrl = "https://swapi.dev/api/people/";
-
-    axios
-      .get(searchUrl)
-      .then(async (response) => {
-        const characters = await this.parseResponse(response);
-        this.setState({
-          tableData: characters,
-          name: "",
-          totalPages: response.data.count,
-        });
-      })
-      .catch((error) => {});
+    this.apiFetch(searchUrl);
   }
 
   handleChange(e) {
@@ -45,18 +36,22 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     const NEWSEARCH = this.state.name;
     const searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
+    this.apiFetch(searchUrl);
+  }
 
+  apiFetch(searchUrl) {
     axios
       .get(searchUrl)
       .then(async (response) => {
         const characters = await this.parseResponse(response);
+        const totalPages = Math.ceil(response.data.count / 10);
         this.setState({
           tableData: characters,
           name: "",
-          totalPages: response.data.count,
+          totalCharacters: response.data.count,
+          totalPages: totalPages,
         });
       })
       .catch((error) => {});
@@ -74,11 +69,9 @@ class App extends React.Component {
             databit.species = getspecies.data.name;
           });
         }
-
         await axios.get(databit.homeworld).then((getworld) => {
           databit.homeworld = getworld.data.name;
         });
-
         return databit;
       })
     );
@@ -98,6 +91,7 @@ class App extends React.Component {
           <Table tableData={this.state.tableData} />
           <Pagination
             currentPage={this.state.currentPage}
+            totalCharacters={this.state.totalCharacters}
             totalPages={this.state.totalPages}
           />
         </div>

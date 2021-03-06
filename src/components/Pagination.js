@@ -11,7 +11,8 @@ const Pagination = (props) => {
       </nav>
       <div>
         <p>Current Page: {props.currentPage}</p>
-        <p>Total Characters: {props.totalPages}</p>
+        <p>Total Characters: {props.totalCharacters}</p>
+        <p>Number of Pages: {props.totalPages}</p>
       </div>
     </div>
   );
