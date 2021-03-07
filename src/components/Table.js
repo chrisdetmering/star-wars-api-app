@@ -3,8 +3,8 @@ import React from "react";
 const Table = (props) => {
   const tableData = props.tableData;
   return (
-    <div className="container">
-      <table className="table table-hover">
+    <div>
+      <table className="table table-hover bg-light rounded">
         <thead>
           <tr>
             <th>Name</th>

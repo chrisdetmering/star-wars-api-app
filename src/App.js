@@ -1,6 +1,7 @@
-import axios from "axios"; // This will likely need to move
+import axios from "axios";
 import React from "react";
 import Title from "./components/Title";
+import Footer from "./components/Footer";
 import Search from "./components/Search";
 import Table from "./components/Table";
 import Pagination from "./components/Pagination";
@@ -11,19 +12,20 @@ class App extends React.Component {
     this.state = {
       tableData: [],
       name: "",
-      currentPage: 1,
+      currentSearch: "",
       totalCharacters: "",
       totalPages: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePaginate = this.handlePaginate.bind(this);
     this.parseResponse = this.parseResponse.bind(this);
     this.apiFetch = this.apiFetch.bind(this);
   }
 
   componentDidMount() {
-    const searchUrl = "https://swapi.dev/api/people/";
+    const searchUrl = "https://swapi.dev/api/people/?page=1";
     this.apiFetch(searchUrl);
   }
 
@@ -31,6 +33,7 @@ class App extends React.Component {
     const { value } = e.target;
     this.setState({
       name: value,
+      currentSearch: value,
     });
   }
 
@@ -38,6 +41,16 @@ class App extends React.Component {
     e.preventDefault();
     const NEWSEARCH = this.state.name;
     const searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
+    this.apiFetch(searchUrl);
+  }
+
+  handlePaginate(number) {
+    const currentSearch = this.state.currentSearch;
+    console.log(currentSearch);
+    const searchUrl = currentSearch
+      ? `https://swapi.dev/api/people/?search=${currentSearch}&page=${number}`
+      : `https://swapi.dev/api/people/?page=${number}`;
+
     this.apiFetch(searchUrl);
   }
 
@@ -59,7 +72,6 @@ class App extends React.Component {
 
   parseResponse(response) {
     const responseData = response.data.results;
-
     const finalData = Promise.all(
       responseData.map(async (databit) => {
         if (databit.species.length === 0) {
@@ -80,8 +92,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App border">
-        <div className="container">
+      <div className="App">
+        <div className="container p-3 my-3 bg-dark text-white">
           <Title />
           <Search
             handleChange={this.handleChange}
@@ -90,10 +102,11 @@ class App extends React.Component {
           />
           <Table tableData={this.state.tableData} />
           <Pagination
-            currentPage={this.state.currentPage}
             totalCharacters={this.state.totalCharacters}
             totalPages={this.state.totalPages}
+            paginate={this.handlePaginate}
           />
+          <Footer />
         </div>
       </div>
     );

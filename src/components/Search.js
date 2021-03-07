@@ -5,13 +5,13 @@ const Search = (props) => {
     <div className="userinput">
       <form onSubmit={props.handleSubmit}></form>
       <form>
-        <div className="form-row">
+        <div className="form-row mb-3">
           <div className="col">
             <input
               id="characterSearch"
               type="text"
               className="form-control"
-              placeholder="ex: Skywalker"
+              placeholder="ex: Darklighter"
               name="characterSearch"
               value={props.name}
               onChange={props.handleChange}
