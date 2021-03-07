@@ -12,7 +12,6 @@ class App extends React.Component {
     this.state = {
       tableData: [],
       name: "",
-      currentSearch: "",
       totalCharacters: "",
       totalPages: "",
     };
@@ -39,13 +38,13 @@ class App extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const NEWSEARCH = this.state.name;
-    const searchUrl = `https://swapi.dev/api/people/?search=${NEWSEARCH}`;
+    const newSearch = this.state.name;
+    const searchUrl = `https://swapi.dev/api/people/?search=${newSearch}`;
     this.apiFetch(searchUrl);
   }
 
   handlePaginate(number) {
-    const currentSearch = this.state.currentSearch;
+    const currentSearch = this.state.name;
     console.log(currentSearch);
     const searchUrl = currentSearch
       ? `https://swapi.dev/api/people/?search=${currentSearch}&page=${number}`
@@ -62,7 +61,6 @@ class App extends React.Component {
         const totalPages = Math.ceil(response.data.count / 10);
         this.setState({
           tableData: characters,
-          name: "",
           totalCharacters: response.data.count,
           totalPages: totalPages,
         });
