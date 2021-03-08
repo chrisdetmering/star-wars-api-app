@@ -74,15 +74,11 @@ class App extends React.Component {
         if (databit.species.length === 0) {
           databit.species = "Human";
         } else {
-          const speciesHttps = databit.species.replace("http", "https");
-          console.log(speciesHttps);
-          await axios.get(speciesHttps).then((getspecies) => {
+          await axios.get(databit.species).then((getspecies) => {
             databit.species = getspecies.data.name;
           });
         }
-        const homeWorldHttps = databit.homeworld.replace("http", "https");
-        console.log(homeWorldHttps);
-        await axios.get(homeWorldHttps).then((getworld) => {
+        await axios.get(databit.homeworld).then((getworld) => {
           databit.homeworld = getworld.data.name;
         });
         return databit;
