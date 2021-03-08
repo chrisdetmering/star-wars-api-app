@@ -2,7 +2,7 @@
 
 ### A Simple Star Wars Character Search
 
-#### Check it out [here](https://bt-star-wars-api-app.herokuapp.com/)
+#### Check it out [here](https://bt-star-wars-api-app.herokuapp.com/!#)
 
 ![](public/starwars-api-app.gif)
 
@@ -17,8 +17,8 @@ Features:
 
 In the future versions I'd like to:
 
-- expand search beyond character names
-- add Sorting
+- Expand search beyond character names
+- Add Sorting
 
 ## Author
 
