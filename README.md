@@ -1,8 +1,8 @@
 # Star Wars API App
 
-### WIP
+### A Simple Star Wars Character Search
 
-<!-- #### Check it out [here](https://bt-expense-tracker.herokuapp.com/) -->
+#### Check it out [here](http://bt-star-wars-api-app.herokuapp.com/)
 
 <!-- ![](public/expense-tracker.gif) -->
 

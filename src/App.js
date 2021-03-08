@@ -45,7 +45,6 @@ class App extends React.Component {
 
   handlePaginate(number) {
     const currentSearch = this.state.name;
-    console.log(currentSearch);
     const searchUrl = currentSearch
       ? `https://swapi.dev/api/people/?search=${currentSearch}&page=${number}`
       : `https://swapi.dev/api/people/?page=${number}`;
@@ -75,11 +74,15 @@ class App extends React.Component {
         if (databit.species.length === 0) {
           databit.species = "Human";
         } else {
-          await axios.get(databit.species).then((getspecies) => {
+          const speciesHttps = databit.species.replace("http", "https");
+          console.log(speciesHttps);
+          await axios.get(speciesHttps).then((getspecies) => {
             databit.species = getspecies.data.name;
           });
         }
-        await axios.get(databit.homeworld).then((getworld) => {
+        const homeWorldHttps = databit.homeworld.replace("http", "https");
+        console.log(homeWorldHttps);
+        await axios.get(homeWorldHttps).then((getworld) => {
           databit.homeworld = getworld.data.name;
         });
         return databit;
