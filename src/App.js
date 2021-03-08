@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const searchUrl = "https://swapi.dev/api/people/?page=1";
+    const searchUrl = "https://swapi.py4e.com/api/people/?page=1";
     this.apiFetch(searchUrl);
   }
 
@@ -39,15 +39,15 @@ class App extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const newSearch = this.state.name;
-    const searchUrl = `https://swapi.dev/api/people/?search=${newSearch}`;
+    const searchUrl = `https://swapi.py4e.com/api/people/?search=${newSearch}`;
     this.apiFetch(searchUrl);
   }
 
   handlePaginate(number) {
     const currentSearch = this.state.name;
     const searchUrl = currentSearch
-      ? `https://swapi.dev/api/people/?search=${currentSearch}&page=${number}`
-      : `https://swapi.dev/api/people/?page=${number}`;
+      ? `https://swapi.py4e.com/api/people/?search=${currentSearch}&page=${number}`
+      : `https://swapi.py4e.com/api/people/?page=${number}`;
 
     this.apiFetch(searchUrl);
   }
