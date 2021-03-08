@@ -2,27 +2,23 @@
 
 ### A Simple Star Wars Character Search
 
-#### Check it out [here](http://bt-star-wars-api-app.herokuapp.com/)
+#### Check it out [here](https://bt-star-wars-api-app.herokuapp.com/)
 
-<!-- ![](public/expense-tracker.gif) -->
+![](public/starwars-api-app.gif)
 
 ## Summary
 
-WIP
-
-<!-- This app was written leveraging React & Bootstrap. The focus of this project was to build an expense tracker that improved upon the earlier vanilla JavaScript version availble [here](https://github.com/btarro/expense-tracker-app)
+This app was written leveraging React, Bootstrap, and Axios. The focus of this project was to build a Star Wars character search that used data from an API and limited results-per-page (pagination).
 
 Features:
 
 - Responsive Design
-- Add / Remove expenses
-- Capture: Description, Location, Date, and Amount
+- Full or partial search parameters
 
 In the future versions I'd like to:
 
-- add balance
-- Store expenses beyond the current session
-- add sorting -->
+- expand search beyond character names
+- add Sorting
 
 ## Author
 
