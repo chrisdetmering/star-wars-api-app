@@ -20,12 +20,12 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handlePaginate = this.handlePaginate.bind(this);
     this.parseResponse = this.parseResponse.bind(this);
-    this.apiFetch = this.apiFetch.bind(this);
+    this.getCharacters = this.getCharacters.bind(this);
   }
 
   componentDidMount() {
     const searchUrl = "https://swapi.py4e.com/api/people/?page=1";
-    this.apiFetch(searchUrl);
+    this.getCharacters(searchUrl);
   }
 
   handleChange(e) {
@@ -40,7 +40,7 @@ class App extends React.Component {
     e.preventDefault();
     const newSearch = this.state.name;
     const searchUrl = `https://swapi.py4e.com/api/people/?search=${newSearch}`;
-    this.apiFetch(searchUrl);
+    this.getCharacters(searchUrl);
   }
 
   handlePaginate(number) {
@@ -49,15 +49,19 @@ class App extends React.Component {
       ? `https://swapi.py4e.com/api/people/?search=${currentSearch}&page=${number}`
       : `https://swapi.py4e.com/api/people/?page=${number}`;
 
-    this.apiFetch(searchUrl);
+    this.getCharacters(searchUrl);
   }
 
-  apiFetch(searchUrl) {
+  getCharacters(url) {
     axios
-      .get(searchUrl)
+      .get(url)
       .then(async (response) => {
         const characters = await this.parseResponse(response);
         const totalPages = Math.ceil(response.data.count / 10);
+
+
+
+
         this.setState({
           tableData: characters,
           totalCharacters: response.data.count,
@@ -71,21 +75,31 @@ class App extends React.Component {
     const responseData = response.data.results;
     const finalData = Promise.all(
       responseData.map(async (databit) => {
-        if (databit.species.length === 0) {
-          databit.species = "Human";
-        } else {
-          await axios.get(databit.species).then((getspecies) => {
-            databit.species = getspecies.data.name;
-          });
-        }
-        await axios.get(databit.homeworld).then((getworld) => {
-          databit.homeworld = getworld.data.name;
-        });
+        
+          databit.species = await this.getSpecies(databit.species); 
+          databit.homeworld = await this.getHomeWorld(databit.homeworld); 
+        
         return databit;
       })
     );
     return finalData;
   }
+
+  async getHomeWorld(url) { 
+    const  response = await axios.get(url)
+    return response.data.name; 
+  }
+
+  async getSpecies(url) { 
+    if (url.length === 0) {
+      return "Human";
+    } else {
+      const response = await axios.get(url[0]); 
+      return response.data.name; 
+    }
+  }
+
+
 
   render() {
     return (

@@ -1,26 +1,31 @@
 import React from "react";
 
 const Pagination = (props) => {
-  const pageNumbers = [];
+  //TODO: make pages
 
-  for (let i = 1; i <= props.totalPages; i++) {
-    pageNumbers.push(i);
+  function pages() { 
+    const pageNumbers = [];
+
+    for (let i = 1; i <= props.totalPages; i++) {
+      pageNumbers.push(<li key={i} className="page-item">
+      <a
+        onClick={() => props.paginate(i)}
+        href="!#"
+        className="page-link"
+      >
+        {i}
+      </a>
+    </li>);
+    }
+
+    return pageNumbers; 
   }
+ 
   return (
     <div>
       <nav>
         <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
-              <a
-                onClick={() => props.paginate(number)}
-                href="!#"
-                className="page-link"
-              >
-                {number}
-              </a>
-            </li>
-          ))}
+         {pages()}
         </ul>
       </nav>
       <div>
